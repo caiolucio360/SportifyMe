@@ -1,9 +1,11 @@
+import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { TamaguiProvider, Theme } from "tamagui";
 import config from "./tamagui.config";
-import Home from "./src/pages/Home";
 import { useFonts } from "expo-font";
 import Routes from "./src/routes";
+import Login from "./src/pages/Login";
+import LoginProvider from "./src/context/loginProvider";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -11,6 +13,7 @@ export default function App() {
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
 
+  const isAuthenticated = false;
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
@@ -24,11 +27,12 @@ export default function App() {
   }
 
   return (
-    <TamaguiProvider config={config}>
-      <Theme name={isDarkTheme ? "dark" : "ligth"}>
-        <Routes />
-        {/* <Home theme={setIsDarkTheme} /> */}
-      </Theme>
-    </TamaguiProvider>
+    <LoginProvider>
+      <TamaguiProvider config={config}>
+        <Theme name={isDarkTheme ? "light" : "light"}>
+          <Routes />
+        </Theme>
+      </TamaguiProvider>
+    </LoginProvider>
   );
 }
