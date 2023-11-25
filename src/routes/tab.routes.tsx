@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
 
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -8,10 +9,13 @@ import Home from "../pages/Home/index";
 import GruposEmComum from "../pages/Grupos/index";
 import Eventos from "../pages/Eventos/index";
 import LoginScreen from "../pages/Login";
-import { useContext } from "react";
 import { useLogin } from "../context/loginProvider";
+import MyGroup from "../pages/My-Group";
 
+const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
 const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
@@ -48,7 +52,15 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-const Drawer = createDrawerNavigator();
+
+const StackNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="BottomTabs">
+      <Stack.Screen name="BottomTabs" component={TabNavigator} options={{ headerShown: false }}/>
+      <Stack.Screen name="Externa" component={MyGroup} />
+    </Stack.Navigator>
+  );
+};
 
 const LoginNavigator = () => {
   return (
@@ -60,7 +72,7 @@ const LoginNavigator = () => {
 
 const MainNavigator = () => {
   const { isLoggedIn } = useLogin();
-  return isLoggedIn ? <TabNavigator /> : <LoginNavigator />;
+  return isLoggedIn ? <StackNavigator /> : <LoginNavigator />;
 };
 
 export default MainNavigator;

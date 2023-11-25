@@ -106,7 +106,7 @@ export function SelectDemoItem(props: SelectProps) {
           minWidth={200}
         >
           <Select.Group>
-            <Select.Label>Fruits</Select.Label>
+            <Select.Label>Esportes</Select.Label>
             {/* for longer lists memoizing these is useful */}
             {useMemo(
               () =>

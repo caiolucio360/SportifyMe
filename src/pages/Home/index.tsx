@@ -2,11 +2,10 @@ import { YStack, XStack, Input, Avatar, Card, H4, Text } from "tamagui";
 import { LogOut } from "@tamagui/lucide-icons";
 import User from "../../components/User";
 import { Button } from "../../components/Button";
-import ChangeTheme from "../../components/ChangeTheme";
 import React from "react";
 import { useLogin } from "../../context/loginProvider";
 
-export default function Home({ theme }) {
+export default function Home({ navigation }) {
   const groups = [
     {
       id: 1,
@@ -29,15 +28,17 @@ export default function Home({ theme }) {
   const { setIsLoggedIn } = useLogin();
 
   const handleLoggout = () => {
-    console.log("Handle Login");
     setIsLoggedIn(false);
+  };
+
+  const handleVizualizarGrupo = (id) => {
+    navigation.navigate("Externa",{groupId: id});
   };
 
   return (
     <YStack bg="$background" f={1} p="$6" pt="$8">
       <XStack jc="space-between">
         <User />
-        {/* <ChangeTheme onCheckedChange={theme} /> */}
         <Button
           style={{ backgroundColor: "red" }}
           theme="active"
@@ -62,7 +63,13 @@ export default function Home({ theme }) {
       </XStack>
       <YStack space="$2" mt="$6">
         {groups.map((group) => (
-          <Card key={group.id} backgroundColor="$gray7">
+          <Card
+            animation="bouncy"
+            pressStyle={{ scale: 0.875 }}
+            key={group.id}
+            backgroundColor="$gray7"
+            onPress={() => handleVizualizarGrupo(group.id)}
+          >
             <Card.Header padded>
               <XStack space="$2" ai="center">
                 <Avatar size="$5" circular>
